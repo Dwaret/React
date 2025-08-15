@@ -1,39 +1,89 @@
 import { useEffect, useState } from "react";
 import { Input, ListOfAllItems } from "./Components.jsx";
-import { setItem, getItem } from "./LocalStorage.js";
 
 export default function TodoApp() {
   const [toggleShowDone, setToggleShowDonw] = useState(false);
-  const [id, setId] = useState(() => {
-    const value = getItem("count");
-    return value ? value : 0;
-  });
-  const [listItems, setListItems] = useState(() => {
-    const value = getItem("listItems");
-    return value ? value : [];
-  });
+  const [listItems, setListItems] = useState([]);
   const [addTaskText, setAddTaskText] = useState("");
 
   useEffect(() => {
-    setItem("listItems", listItems);
-    setItem("count", id);
-  }, [listItems, id]);
+    const getServerData = async () => {
+      try {
+        const result = await fetch("http://localhost:3001/todos");
+        result.json().then((json) => {
+          setListItems(json);
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getServerData();
+  }, []);
 
-  function handleEditSave(id, textToSave) {
-    setListItems(() => {
-      const newListItem = listItems.map((e) => {
-        if (id === e.id) {
-          e.task = textToSave;
-          e.isEditing = false;
-        }
-        return e;
+  const addNewServerData = async (task) => {
+    try {
+      const result = await fetch("http://localhost:3001/todos", {
+        method: "POST",
+        header: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          task: task,
+          isEditing: false,
+          isDone: false,
+        }),
       });
-      return newListItem;
+      result.json().then((newListItem) => {
+        setListItems([...listItems, newListItem]);
+        console.log(newListItem);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  async function handleDone(id) {
+    try {
+      const result = await fetch(`http://localhost:3001/todos/${id}`, {
+        method: "PATCH",
+        header: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          isDone: true,
+        }),
+      });
+      result.json().then((updatedItem) => {
+        setListItems(listItems.map((e) => (e.id === id ? updatedItem : e)));
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function handleEditSave(id, textToSave) {
+    const result = await fetch(`http://localhost:3001/todos/${id}`, {
+      method: "PATCH",
+      header: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        task: textToSave,
+        isEditing: false,
+      }),
+    });
+    result.json().then((editedItem) => {
+      setListItems(listItems.map((e) => (e.id === id ? editedItem : e)));
     });
   }
 
-  function handleDelete(id) {
-    setListItems(listItems.filter((e) => e.id !== id));
+  async function handleDelete(id) {
+    const result = await fetch(`http://localhost:3001/todos/${id}`, {
+      method: "DELETE",
+    });
+    result.json().then(() => {
+      setListItems(listItems.filter((e) => e.id !== id));
+    });
   }
 
   function handleEdit(id) {
@@ -50,46 +100,14 @@ export default function TodoApp() {
     });
   }
 
-  function handleDone(id) {
-    setListItems(() => {
-      const newListItems = listItems.map((e) => {
-        if (id === e.id) {
-          e.isDone = true;
-        }
-        return e;
-      });
-      return newListItems;
-    });
-  }
-
-  function handleAddTask(event) {
-    event.preventDefault();
-
-    setListItems([
-      ...listItems,
-      {
-        id: id,
-        task: addTaskText,
-        isEditing: false,
-        isDone: false,
-      },
-    ]);
-
-    setId(id + 1);
-
-    setAddTaskText("");
-  }
-
   return (
     <>
       <h3>TODO LIST</h3>
-      <form>
-        <Input
-          addTaskText={addTaskText}
-          setAddTaskText={setAddTaskText}
-          handleAddTask={handleAddTask}
-        />
-      </form>
+      <Input
+        addTaskText={addTaskText}
+        setAddTaskText={setAddTaskText}
+        addNewServerData={addNewServerData}
+      />
       <button onClick={() => setToggleShowDonw(!toggleShowDone)}>
         {toggleShowDone ? "Hide Done" : "Show Done"}
       </button>

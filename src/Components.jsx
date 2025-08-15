@@ -1,15 +1,24 @@
 import { useState } from "react";
 import { FaCheckSquare } from "react-icons/fa";
 
-export function Input({ addTaskText, setAddTaskText, handleAddTask }) {
+export function Input({ addTaskText, setAddTaskText, addNewServerData }) {
   return (
     <>
-      <input
-        value={addTaskText}
-        onChange={(e) => setAddTaskText(e.target.value)}
-        placeholder="Add your task here"
-      ></input>
-      <button onClick={handleAddTask}>ADD</button>
+      <form>
+        <input
+          value={addTaskText}
+          onChange={(e) => setAddTaskText(e.target.value)}
+          placeholder="Add your task here"
+        ></input>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            addNewServerData(addTaskText);
+          }}
+        >
+          ADD
+        </button>
+      </form>
     </>
   );
 }

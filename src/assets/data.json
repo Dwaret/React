@@ -1,0 +1,22 @@
+{
+  "todos": [
+    {
+      "id": "0",
+      "task": "Set up the project structure",
+      "isEditing": false,
+      "isDone": true
+    },
+    {
+      "id": "2",
+      "task": "Connect React to the API",
+      "isEditing": false,
+      "isDone": false
+    },
+    {
+      "id": "d155",
+      "task": "lol",
+      "isEditing": false,
+      "isDone": false
+    }
+  ]
+}
