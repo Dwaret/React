@@ -8,13 +8,73 @@
     },
     {
       "id": "2",
-      "task": "Connect React to the API",
+      "task": "",
+      "isEditing": false,
+      "isDone": true
+    },
+    {
+      "id": "be53",
+      "task": "asdwdaswwwwwwww",
+      "isEditing": false,
+      "isDone": true
+    },
+    {
+      "id": "b3fd",
+      "task": "kjhjkhjkhjk",
+      "isEditing": false,
+      "isDone": true
+    },
+    {
+      "id": "cc8b",
+      "task": "asdasdasdasd",
+      "isEditing": false,
+      "isDone": true
+    },
+    {
+      "id": "f48f",
+      "task": "asdas",
+      "isEditing": false,
+      "isDone": true
+    },
+    {
+      "id": "87e9",
+      "task": "",
+      "isEditing": false,
+      "isDone": true
+    },
+    {
+      "id": "196d",
+      "task": "asdasd",
+      "isEditing": false,
+      "isDone": true
+    },
+    {
+      "id": "d62a",
+      "task": "asdasd",
+      "isEditing": false,
+      "isDone": true
+    },
+    {
+      "id": "b15f",
+      "task": "Hello i am here to make an offer",
       "isEditing": false,
       "isDone": false
     },
     {
-      "id": "d155",
-      "task": "lol",
+      "id": "aecd",
+      "task": "daszzx",
+      "isEditing": false,
+      "isDone": false
+    },
+    {
+      "id": "ac96",
+      "task": "asdasdasddasds",
+      "isEditing": false,
+      "isDone": false
+    },
+    {
+      "id": "f435",
+      "task": "dasdasdasdasas",
       "isEditing": false,
       "isDone": false
     }
